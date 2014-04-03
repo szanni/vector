@@ -47,6 +47,8 @@ struct {			\
 
 #define VECTOR_AT(v, i) ((v).data[i])
 
+#define VECTOR_FOREACH(v, ep) for ((ep) = (v).data; (ep) < (v).data + (v).size; ++(ep))
+
 #define VECTOR_DATA(v) ((v).data)
 
 #define VECTOR_SIZE(v) ((v).size)

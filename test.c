@@ -28,6 +28,9 @@
 #include "vector.h"
 #include "unused.h"
 
+VECTOR_TYPEDEF(char*, string);
+char* strings[] = {"ab", "cd", "ef", NULL};
+
 void * __real_realloc(void *ptr, size_t size);
 
 void *
@@ -53,6 +56,37 @@ test_basic_example (void ** UNUSED(state))
 	assert_int_equal(VECTOR_AT(v, 1), 20);
 
 	VECTOR_FREE(v);
+}
+
+void
+print_vector (VECTOR_TYPE(string) v)
+{
+        char **p;
+        char **si = strings;
+
+        VECTOR_FOREACH(v, p)
+                assert_string_equal(*p, *si++);
+}
+
+void
+test_advanced_example (void ** UNUSED(state))
+{
+        char *s;
+        char **si = strings;
+        VECTOR_TYPE(string) v;
+
+        will_return_always(__wrap_realloc, 0);
+
+        assert_int_equal(VECTOR_NEW_CAPACITY(v, 10), 0);
+
+        while ((s = *si++) != NULL)
+                assert_int_equal(VECTOR_APPEND(v, s), 0);
+
+        assert_int_equal(VECTOR_SIZE(v), 3);
+
+        print_vector(v);
+
+        VECTOR_FREE(v);
 }
 
 void
@@ -87,6 +121,7 @@ main (void)
 {
 	const UnitTest tests[] = {
 		unit_test(test_basic_example),
+		unit_test(test_advanced_example),
 		unit_test(test_new_fail),
 		unit_test(test_append_fail)
 	};
