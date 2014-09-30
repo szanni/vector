@@ -1,0 +1,369 @@
+.\" Copyright (c) 2014, Angelo Haller
+.\"
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+.\" SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+.\" OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+.\" CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd September 29, 2014
+.Dt VECTOR 3
+.Os
+.Sh NAME
+.Nm VECTOR ,
+.Nm VECTOR_TYPE ,
+.Nm VECTOR_TYPEDEF ,
+.Nm VECTOR_INIT_EMPTY ,
+.Nm VECTOR_INIT_CAPACITY ,
+.Nm VECTOR_INIT_DATA ,
+.Nm VECTOR_NEW ,
+.Nm VECTOR_NEW_CAPACITY ,
+.Nm VECTOR_APPEND ,
+.Nm VECTOR_PREPEND ,
+.Nm VECTOR_AT ,
+.Nm VECTOR_FOREACH ,
+.Nm VECTOR_DATA ,
+.Nm VECTOR_SIZE ,
+.Nm VECTOR_CAPACITY ,
+.Nm VECTOR_SHRINK_TO_FIT ,
+.Nm VECTOR_FREE
+.Nd generic, type-safe, malloc checkable dynamic array implementation in C
+(ANSI C89/ISO C99/ISO C11)
+.Sh SYNOPSIS
+.In stdlib.h
+.In string.h
+.In vector.h
+.Fn VECTOR TYPE
+.Fn VECTOR_TYPE NAME
+.Fn VECTOR_TYPEDEF TYPE NAME
+.Pp
+.Fd VECTOR_INIT_EMPTY
+.Fn VECTOR_INIT_CAPACITY "size_t capacity"
+.Fn VECTOR_INIT_DATA "TYPE *data" "size_t size"
+.Ft int
+.Fn VECTOR_NEW "VECTOR(TYPE) vector"
+.Ft int
+.Fn VECTOR_NEW_CAPACITY "VECTOR(TYPE) vector" "size_t capacity"
+.Ft int
+.Fn VECTOR_APPEND "VECTOR(TYPE) vector" "TYPE element"
+.Ft int
+.Fn VECTOR_PREPEND "VECTOR(TYPE) vector" "TYPE element"
+.Ft TYPE
+.Fn VECTOR_AT "VECTOR(TYPE) vector" "size_t index"
+.Fn VECTOR_FOREACH "VECTOR(TYPE) vector" "TYPE *element"
+.Ft TYPE*
+.Fn VECTOR_DATA "VECTOR(TYPE) vector"
+.Ft size_t
+.Fn VECTOR_SIZE "VECTOR(TYPE) vector"
+.Ft size_t
+.Fn VECTOR_CAPACITY "VECTOR(TYPE) vector"
+.Ft void
+.Fn VECTOR_SHRINK_TO_FIT "VECTOR(TYPE) vector"
+.Ft void
+.Fn VECTOR_FREE "VECTOR(TYPE) vector"
+.Sh DESCRIPTION
+.Nm
+is a generic, type-safe, malloc checkable, dynamic array implementation within
+a single header file, written in standards compliant C.
+.Pp
+.Nm
+deliberately does not include any parts of the C standard library but
+rather expects users to provide the functions
+.Fn realloc ,
+.Fn memmove
+and
+.Fn free ,
+as well as the type
+.Vt size_t
+themselves. For most applications just include
+.In stdlib.h
+and
+.In string.h
+before including
+.In vector.h .
+.Pp
+.Nm
+is primarily targeted at creation of dynamic arrays on the fly. While the
+library provides for a way of passing
+.Vt VECTORs
+around to other functions, please consider using the idiomatic C mechanisms
+of passing pointers with size! This holds especially true for public APIs!
+.Pp
+The
+.Nm
+management structures are deliberately held on the stack, while the raw data
+held by the
+.Vt VECTOR
+is heap allocated. Together with the functions
+.Fn VECTOR_DATA ,
+.Fn VECTOR_SIZE ,
+and
+.Fn VECTOR_INIT_DATA
+this setup should provide for a seamless interaction with standard C interfaces,
+while introducing zero run-time overhead. At the same this setup should enable
+the compiler to optimize away the
+.Nm
+management structures entirely.
+.Pp
+The macro
+.Fn VECTOR type
+evaluates to an anonymous vector type definition of type
+.Fa type .
+This is meant to be used for variables that are used in local scope only.
+.Pp
+The macro
+.Fn VECTOR_TYPE name
+evaluates to a vector type declaration for a vector type previously defined
+with
+.Fn VECTOR_TYPEDEF type name .
+.Pp
+The macro
+.Fn VECTOR_TYPEDEF type name
+defines a new vector type of type
+.Fa type
+named
+.Fa name .
+A vector type definition is needed for more complex operations, such as passing
+vectors to other functions. Make sure that the
+.Va name
+is a valid C identifier.
+.Pp
+The macro
+.Fd VECTOR_INIT_EMPTY
+evaluates to a generic
+.Ft vector ,
+which can be safely passed to all
+.Nm
+macros expecting a
+.Va vector
+argument. This macro does NOT allocate any memory but will hint the allocator
+to allocate memory for
+.Fd VECTOR_DEFAULT_CAPACITY
+elements when first called.
+.Pp
+The macro
+.Fn VECTOR_INIT_CAPACITY capacity
+evaluates to a generic
+.Ft vector ,
+which can be safely passed to all
+.Nm
+macros expecting a
+.Va vector
+argument. This macro does NOT allocate any memory but will hint the allocator
+to allocate memory for
+.Fa capacity
+elements when first called.
+.Pp
+The macro
+.Fn VECTOR_INIT_DATA data size
+evaluates to a generic
+.Ft vector
+which is initialized with
+.Fa data
+and it's respective
+.Fa size .
+Be aware that the
+.Fa data
+pointer is now managed by
+.Nm
+and all access to the original
+.Fa data
+pointer may result in undefined behavior, as soon the
+.Ft vector
+is altered. Also make sure to free the
+.Ft vector
+once done but do not double free by additionally calling free() on the original
+.Fa data
+pointer. To regain access to the raw
+.Fa data
+pointer you can use
+.Fn VECTOR_DATA .
+Passing a pointer that is not heap allocated will result in undefined behavior!
+.Pp
+The macro
+.Fn VECTOR_NEW vector
+allocates a new
+.Fa vector
+with an initial capacity of
+.Fd VECTOR_DEFAULT_CAPACITY .
+.Pp
+The macro
+.Fn VECTOR_NEW_CAPACITY vector capacity
+allocates a new
+.Fa vector
+with an initial capacity of
+.Fa capacity .
+.Pp
+The macro
+.Fn VECTOR_APPEND vector element
+appends an
+.Vt element
+to the
+.Vt vector
+while allocating more space, if needed.
+.Pp
+The macro
+.Fn VECTOR_PREPEND vector element
+prepends an
+.Vt element
+to the
+.Vt vector
+while allocating more space, if needed.
+.Pp
+The macro
+.Fn VECTOR_AT vector index
+evaluates to the
+.Vt element
+at the specified
+.Vt index .
+This can be used for reading and writing the data at said index.
+.Pp
+The macro
+.Fn VECTOR_FOREACH vector element
+evaluates to a for loop expression, iterating over all elements of the
+.Fa vector .
+The second parameter
+.Fa element
+is a pointer to the base data type of the
+.Fa vector
+which is updated on each loop iteration to hold the respective value.
+.Pp
+The macro
+.Fn VECTOR_DATA vector
+Evaluates to the raw
+.Ft data
+pointer held by the
+.Fa vector .
+This obtained pointer is safe to be passed to
+.Fn free .
+Make sure not to double free by calling
+.Fn free
+on the obtained pointer and
+.Fn VECTOR_FREE
+on the original
+.Fa vector .
+Also make sure not to perform any more data altering operations on the
+original
+.Fa vector ,
+as this may invalidate the obtained
+.Ft data
+pointer.
+.Pp
+The macro
+.Fn VECTOR_SIZE vector
+evaluates to the number of elements held by the
+.Vt vector .
+.Pp
+The macro
+.Fn VECTOR_CAPACITY vector
+evaluates to the current capacity of the
+.Fa vector ,
+if memory allocation has occurred. Otherwise it will evaluate to the initial
+capacity hint supplied to the allocator.
+.Pp
+The macro
+.Fn VECTOR_SHRINK_TO_FIT vector
+shrinks the vector's memory to fit the vector's size.
+.Pp
+The macro
+.Fn VECTOR_FREE vector
+frees the memory held by the
+.Fa vector .
+.Pp
+.Sh RETURN VALUES
+As
+.Nm
+is a preprocessor library consisting of macros there are no function return values.
+A number of the macros however evaluate to expressions that have to be checked to
+ensure the operation succeeded.
+.Pp
+.Fn VECTOR_NEW ,
+.Fn VECTOR_NEW_CAPACITY ,
+.Fn VECTOR_APPEND ,
+.Fn VECTOR_PREPEND
+evaluates to 0 on success, and 1 if an error occurs.
+.Sh EXAMPLES
+.Bl -item
+.It
+Simple example showing typical use:
+.Bd -literal
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <vector.h>
+
+int
+main (void)
+{
+	VECTOR(int) v = VECTOR_INIT_EMPTY;
+
+	if (VECTOR_APPEND(v, 10)) {
+		return 1;
+	}
+
+	if (VECTOR_APPEND(v, 20)) {
+		VECTOR_FREE(v);
+		return 1;
+	}
+
+	printf("%d\\n", VECTOR_AT(v, 0));
+	printf("%d\\n", VECTOR_AT(v, 1));
+
+	VECTOR_FREE(v);
+
+	return 0;
+}
+.Ed
+.It
+Example for passing
+.Vt VECTOR_TYPEs
+to other functions as arguments and iterating over the vector's contents:
+.Bd -literal
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <vector.h>
+
+VECTOR_TYPEDEF(char*, string);
+
+static void
+print_vector (VECTOR_TYPE(string) v)
+{
+	char **p;
+
+	puts("elements:");
+
+	VECTOR_FOREACH(v, p)
+		printf("  %s\\n", *p);
+}
+
+int
+main (void)
+{
+	unsigned i;
+	VECTOR_TYPE(string) v = VECTOR_INIT_EMPTY;
+	char * strings[] = {"ab", "cd", "ef"};
+
+	for (i = 0; i < sizeof(strings) / sizeof(strings[0]); ++i) {
+		if (VECTOR_APPEND(v, strings[i])) {
+			VECTOR_FREE(v);
+			return 1;
+		}
+	}
+
+	printf("size: %lu\\n", VECTOR_SIZE(v));
+
+	print_vector(v);
+
+	VECTOR_FREE(v);
+
+	return 0;
+}
+.Ed
+.El

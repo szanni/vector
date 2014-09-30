@@ -14,7 +14,7 @@ PACKAGE = vector
 VERSION = 0.0.0
 
 TESTOBJS = test.ansi test.c99 test.c11
-DIST = Makefile vector.h unused.h test.c LICENSE
+DIST = Makefile vector.h vector.3 unused.h test.c LICENSE
 
 all:
 
@@ -32,8 +32,9 @@ test.c11: test.c vector.h unused.h
 	$(CC) $(CFLAGS) $(LDFLAGS) -std=c11 test.c -o $@
 	./$@
 
-install: vector.h
+install: vector.h vector.3
 	$(INSTALL) -D -m644 vector.h "$(DESTDIR)$(PREFIX)/include/vector.h"
+	$(INSTALL) -D -m644 vector.3 "$(DESTDIR)$(PREFIX)/share/man/man3/vector.3"
 
 dist: $(DIST)
 	mkdir -p $(PACKAGE)-$(VERSION)
