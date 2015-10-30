@@ -119,12 +119,12 @@ test_append_fail (void ** UNUSED(state))
 int
 main (void)
 {
-	const UnitTest tests[] = {
-		unit_test(test_basic_example),
-		unit_test(test_advanced_example),
-		unit_test(test_new_fail),
-		unit_test(test_append_fail)
+	const struct CMUnitTest tests[] = {
+		cmocka_unit_test(test_basic_example),
+		cmocka_unit_test(test_advanced_example),
+		cmocka_unit_test(test_new_fail),
+		cmocka_unit_test(test_append_fail)
 	};
-	return run_tests(tests);
+	return cmocka_run_group_tests(tests, NULL, NULL);
 }
 
