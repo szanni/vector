@@ -17,6 +17,8 @@ TESTOBJS = test.c89 test.c99 test.c11
 DIST = Makefile vector.h vector.3 unused.h test.c LICENSE
 
 all:
+	@echo 'As this is a header only library there is nothing to be done.'
+	@echo 'See `make check` and `make install`.'
 
 check: clean $(TESTOBJS)
 	./test.c89
