@@ -26,13 +26,13 @@ check: clean $(TESTOBJS)
 	./test.c11
 
 test.c89: test.c vector.h unused.h
-	$(CC) $(CFLAGS) $(LDFLAGS) -std=c89 test.c -o $@
+	$(CC) -std=c89 test.c -o $@ $(CFLAGS) $(LDFLAGS)
 
 test.c99: test.c vector.h unused.h
-	$(CC) $(CFLAGS) $(LDFLAGS) -std=c99 test.c -o $@
+	$(CC) -std=c99 test.c -o $@ $(CFLAGS) $(LDFLAGS)
 
 test.c11: test.c vector.h unused.h
-	$(CC) $(CFLAGS) $(LDFLAGS) -std=c11 test.c -o $@
+	$(CC) -std=c11 test.c -o $@ $(CFLAGS) $(LDFLAGS)
 
 install: vector.h vector.3
 	$(INSTALL) -D -m644 vector.h "$(DESTDIR)$(PREFIX)/include/vector.h"
