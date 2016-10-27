@@ -7,6 +7,7 @@ CC ?= cc
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -Wl,-wrap,realloc
 CFLAGS += -fprofile-arcs -ftest-coverage
+CFLAGS += -O3
 CFLAGS += `pkg-config --cflags cmocka`
 LDFLAGS += `pkg-config --libs cmocka`
 
