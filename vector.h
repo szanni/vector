@@ -20,11 +20,13 @@
 #define VECTOR_GROWTH_FACTOR 1.5f
 #define VECTOR_DEFAULT_CAPACITY 5u
 
-#define VECTOR_INIT_EMPTY {0, VECTOR_DEFAULT_CAPACITY, NULL}
+#define VECTOR_INIT_STATIC_EMPTY {0, VECTOR_DEFAULT_CAPACITY, NULL}
+#define VECTOR_INIT_STATIC_CAPACITY(capacity) {0, (capacity), NULL}
 
-#define VECTOR_INIT_DATA(data, size) {(size), (size), (data)}
+#define VECTOR_INIT_EMPTY(v) ((v).size = 0, (v).capacity = 0, (v).data = NULL)
 
-#define VECTOR_INIT_CAPACITY(capacity) {0, (capacity), NULL}
+#define VECTOR_INIT_DATA(v, d, s) ((v).size = s, (v).capacity = s, (v).data = d)
+#define VECTOR_INIT_CAPACITY(v, c) ((v).size = 0, (v).capacity = (c), (v).data = NULL)
 
 #define VECTOR(type)		\
 struct {			\

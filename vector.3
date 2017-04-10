@@ -19,8 +19,8 @@
 .Nm VECTOR ,
 .Nm VECTOR_TYPE ,
 .Nm VECTOR_TYPEDEF ,
-.Nm VECTOR_INIT_EMPTY ,
-.Nm VECTOR_INIT_CAPACITY ,
+.Nm VECTOR_INIT_STATIC_EMPTY ,
+.Nm VECTOR_INIT_STATIC_CAPACITY ,
 .Nm VECTOR_INIT_DATA ,
 .Nm VECTOR_NEW ,
 .Nm VECTOR_NEW_CAPACITY ,
@@ -43,8 +43,8 @@
 .Fn VECTOR_TYPE NAME
 .Fn VECTOR_TYPEDEF TYPE NAME
 .Pp
-.Fd VECTOR_INIT_EMPTY
-.Fn VECTOR_INIT_CAPACITY "size_t capacity"
+.Fd VECTOR_INIT_STATIC_EMPTY
+.Fn VECTOR_INIT_STATIC_CAPACITY "size_t capacity"
 .Fn VECTOR_INIT_DATA "TYPE *data" "size_t size"
 .Ft int
 .Fn VECTOR_NEW "VECTOR(TYPE) vector"
@@ -135,7 +135,7 @@ vectors to other functions. Make sure that the
 is a valid C identifier.
 .Pp
 The macro
-.Fd VECTOR_INIT_EMPTY
+.Fd VECTOR_INIT_STATIC_EMPTY
 evaluates to a generic
 .Ft vector ,
 which can be safely passed to all
@@ -148,7 +148,7 @@ to allocate memory for
 elements when first called.
 .Pp
 The macro
-.Fn VECTOR_INIT_CAPACITY capacity
+.Fn VECTOR_INIT_STATIC_CAPACITY capacity
 evaluates to a generic
 .Ft vector ,
 which can be safely passed to all
@@ -301,7 +301,7 @@ Simple example showing typical use:
 int
 main (void)
 {
-	VECTOR(int) v = VECTOR_INIT_EMPTY;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
 	if (VECTOR_APPEND(v, 10)) {
 		return 1;
@@ -347,7 +347,7 @@ int
 main (void)
 {
 	unsigned i;
-	VECTOR_TYPE(string) v = VECTOR_INIT_EMPTY;
+	VECTOR_TYPE(string) v = VECTOR_INIT_STATIC_EMPTY;
 	char * strings[] = {"ab", "cd", "ef"};
 
 	for (i = 0; i < sizeof(strings) / sizeof(strings[0]); ++i) {

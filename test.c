@@ -46,7 +46,7 @@ __wrap_realloc (void * ptr, size_t size)
 void
 test_INIT_EMPTY (void ** UNUSED(state))
 {
-	VECTOR(int) v = VECTOR_INIT_EMPTY;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
         will_return(__wrap_realloc, 0);
 
@@ -64,7 +64,7 @@ test_INIT_EMPTY (void ** UNUSED(state))
 void
 test_INIT_CAPACITY (void ** UNUSED(state))
 {
-	VECTOR(int) v = VECTOR_INIT_CAPACITY(7);
+	VECTOR(int) v = VECTOR_INIT_STATIC_CAPACITY(7);
 
         will_return(__wrap_realloc, 0);
 
@@ -82,7 +82,8 @@ test_INIT_CAPACITY (void ** UNUSED(state))
 void
 _test_INIT_DATA(int *data, size_t size)
 {
-	VECTOR_TYPE(int) v = VECTOR_INIT_DATA(data, size);
+	VECTOR_TYPE(int) v;
+	VECTOR_INIT_DATA(v, data, size);
 
 	assert_int_equal(VECTOR_AT(v, 0), 10);
 	assert_int_equal(VECTOR_AT(v, 1), 20);
@@ -94,7 +95,7 @@ _test_INIT_DATA(int *data, size_t size)
 void
 test_INIT_DATA (void ** UNUSED(state))
 {
-	VECTOR_TYPE(int) v = VECTOR_INIT_CAPACITY(3);
+	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(3);
 
         will_return(__wrap_realloc, 0);
 
@@ -141,7 +142,7 @@ test_append_grow (void ** UNUSED(state))
 {
 	size_t i;
 	size_t capacity;
-	VECTOR(int) v = VECTOR_INIT_EMPTY;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
 	will_return_always(__wrap_realloc, 0);
 
@@ -161,7 +162,7 @@ test_prepend_grow (void ** UNUSED(state))
 {
 	size_t i;
 	size_t capacity;
-	VECTOR(int) v = VECTOR_INIT_EMPTY;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
 	will_return_always(__wrap_realloc, 0);
 
@@ -233,7 +234,7 @@ test_prepend_grow_fail (void ** UNUSED(state))
 void
 test_shrink_to_fit (void ** UNUSED(state))
 {
-	VECTOR_TYPE(int) v = VECTOR_INIT_CAPACITY(5);
+	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(5);
 
         will_return(__wrap_realloc, 0);
         will_return(__wrap_realloc, 0);
@@ -258,7 +259,7 @@ test_shrink_to_fit (void ** UNUSED(state))
 void
 test_basic_example (void ** UNUSED(state))
 {
-	VECTOR(int) v = VECTOR_INIT_EMPTY;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
 	will_return_always(__wrap_realloc, 0);
 
