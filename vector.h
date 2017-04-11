@@ -47,6 +47,8 @@ struct {			\
 
 #define VECTOR_PREPEND(v, e) ((!_vector_prepend(_vector(v))) ? ((v).data[0] = e, (v).size++, 0) : 1)
 
+#define VECTOR_ERASE(v, i) (_vector_memmove(_vector(v), i, i+1), (v).size--)
+
 #define VECTOR_AT(v, i) ((v).data[i])
 
 #define VECTOR_FOREACH(v, ep) for ((ep) = (v).data; (ep) < (v).data + (v).size; ++(ep))
@@ -114,12 +116,25 @@ static inline int
 #else
 static int
 #endif
+_vector_memmove (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t destidx, size_t srcidx)
+{
+	memmove((char*)v->data + sizeof_type * destidx,
+	        (char*)v->data + sizeof_type * srcidx,
+		(v->size - srcidx) * sizeof_type);
+	return 0;
+}
+
+#if __STDC_VERSION__ >= 199901L
+static inline int
+#else
+static int
+#endif
 _vector_prepend (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 {
 	if (_vector_grow_if_needed(v, sizeof_type))
 		return 1;
 
-	memmove((char*) v->data + sizeof_type, v->data, v->size * sizeof_type);
+	_vector_memmove(v, sizeof_type, 1, 0);
 	return 0;
 }
 

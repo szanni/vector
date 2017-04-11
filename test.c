@@ -178,6 +178,36 @@ test_prepend_grow (void ** UNUSED(state))
 }
 
 void
+test_erase (void ** UNUSED(state))
+{
+	size_t i;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
+
+	will_return_always(__wrap_realloc, 0);
+
+	for (i = 0; i < 10; ++i)
+		assert_int_equal(VECTOR_APPEND(v, i), 0);
+
+	VECTOR_ERASE(v, 5);
+	VECTOR_ERASE(v, 0);
+	VECTOR_ERASE(v, 7);
+	VECTOR_ERASE(v, 1);
+	VECTOR_ERASE(v, 2);
+	VECTOR_ERASE(v, 2);
+	VECTOR_ERASE(v, 3);
+
+	assert_int_equal(VECTOR_AT(v, 0), 1);
+	assert_int_equal(VECTOR_AT(v, 1), 3);
+	assert_int_equal(VECTOR_AT(v, 2), 7);
+
+	assert_int_equal(VECTOR_SIZE(v), 3);
+
+	VECTOR_FREE(v);
+}
+
+
+
+void
 test_new_fail (void ** UNUSED(state))
 {
 	VECTOR(int) v;
@@ -313,6 +343,7 @@ main (void)
 		cmocka_unit_test(test_new_capacity),
 		cmocka_unit_test(test_append_grow),
 		cmocka_unit_test(test_prepend_grow),
+		cmocka_unit_test(test_erase),
 		cmocka_unit_test(test_new_fail),
 		cmocka_unit_test(test_new_capacity_fail),
 		cmocka_unit_test(test_append_grow_fail),

@@ -26,6 +26,7 @@
 .Nm VECTOR_NEW_CAPACITY ,
 .Nm VECTOR_APPEND ,
 .Nm VECTOR_PREPEND ,
+.Nm VECTOR_ERASE ,
 .Nm VECTOR_AT ,
 .Nm VECTOR_FOREACH ,
 .Nm VECTOR_DATA ,
@@ -54,6 +55,8 @@
 .Fn VECTOR_APPEND "VECTOR(TYPE) vector" "TYPE element"
 .Ft int
 .Fn VECTOR_PREPEND "VECTOR(TYPE) vector" "TYPE element"
+.Ft void
+.Fn VECTOR_ERASE "VECTOR(TYPE) vector" "size_t index"
 .Ft TYPE
 .Fn VECTOR_AT "VECTOR(TYPE) vector" "size_t index"
 .Fn VECTOR_FOREACH "VECTOR(TYPE) vector" "TYPE *element"
@@ -215,6 +218,12 @@ prepends an
 to the
 .Vt vector
 while allocating more space, if needed.
+.Pp
+The macro
+.Fn VECTOR_ERASE vector index
+erases the element at
+.Vt index
+and moves subsequent memory to it's new position.
 .Pp
 The macro
 .Fn VECTOR_AT vector index
