@@ -46,6 +46,25 @@ __wrap_realloc (void * ptr, size_t size)
 void
 test_INIT_EMPTY (void ** UNUSED(state))
 {
+	VECTOR(int) v;
+	VECTOR_INIT_EMPTY(v);
+
+	will_return(__wrap_realloc, 0);
+
+	assert_int_equal(VECTOR_SIZE(v), 0);
+	assert_int_equal(VECTOR_CAPACITY(v), VECTOR_DEFAULT_CAPACITY);
+
+	assert_int_equal(VECTOR_APPEND(v, 10), 0);
+
+	assert_int_equal(VECTOR_SIZE(v), 1);
+	assert_int_equal(VECTOR_CAPACITY(v), VECTOR_DEFAULT_CAPACITY);
+
+	VECTOR_FREE(v);
+}
+
+void
+test_INIT_STATIC_EMPTY (void ** UNUSED(state))
+{
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
         will_return(__wrap_realloc, 0);
@@ -63,6 +82,25 @@ test_INIT_EMPTY (void ** UNUSED(state))
 
 void
 test_INIT_CAPACITY (void ** UNUSED(state))
+{
+	VECTOR(int) v;
+	VECTOR_INIT_CAPACITY(v, 7);
+
+	will_return(__wrap_realloc, 0);
+
+	assert_int_equal(VECTOR_SIZE(v), 0);
+	assert_int_equal(VECTOR_CAPACITY(v), 7);
+
+	assert_int_equal(VECTOR_APPEND(v, 10), 0);
+
+	assert_int_equal(VECTOR_SIZE(v), 1);
+	assert_int_equal(VECTOR_CAPACITY(v), 7);
+
+	VECTOR_FREE(v);
+}
+
+void
+test_INIT_STATIC_CAPACITY (void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_CAPACITY(7);
 
@@ -337,7 +375,9 @@ main (void)
 {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_INIT_EMPTY),
+		cmocka_unit_test(test_INIT_STATIC_EMPTY),
 		cmocka_unit_test(test_INIT_CAPACITY),
+		cmocka_unit_test(test_INIT_STATIC_CAPACITY),
 		cmocka_unit_test(test_INIT_DATA),
 		cmocka_unit_test(test_new),
 		cmocka_unit_test(test_new_capacity),
