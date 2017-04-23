@@ -67,7 +67,7 @@ test_INIT_STATIC_EMPTY (void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_SIZE(v), 0);
 	assert_int_equal(VECTOR_CAPACITY(v), VECTOR_DEFAULT_CAPACITY);
@@ -104,7 +104,7 @@ test_INIT_STATIC_CAPACITY (void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_CAPACITY(7);
 
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_SIZE(v), 0);
 	assert_int_equal(VECTOR_CAPACITY(v), 7);
@@ -135,7 +135,7 @@ test_INIT_DATA (void ** UNUSED(state))
 {
 	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(3);
 
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_APPEND(v, 10), 0);
 	assert_int_equal(VECTOR_APPEND(v, 20), 0);
@@ -150,7 +150,7 @@ test_new (void ** UNUSED(state))
 	/* Ensure VECTOR_NEW() is not affected by uninitialized structures */
 	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0xDEADBEEF};
 
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_NEW(v), 0);
 	assert_int_equal(VECTOR_SIZE(v), 0);
@@ -166,7 +166,7 @@ test_new_capacity (void ** UNUSED(state))
 	   structures */
 	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0xDEADBEEF};
 
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_NEW_CAPACITY(v, 7), 0);
 	assert_int_equal(VECTOR_SIZE(v), 0);
@@ -304,8 +304,8 @@ test_shrink_to_fit (void ** UNUSED(state))
 {
 	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(5);
 
-        will_return(__wrap_realloc, 0);
-        will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
+	will_return(__wrap_realloc, 0);
 
 	assert_int_equal(VECTOR_APPEND(v, 10), 0);
 	assert_int_equal(VECTOR_APPEND(v, 20), 0);
