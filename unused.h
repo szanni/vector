@@ -8,3 +8,13 @@
 
 #endif
 
+#ifndef UNUSED_FUNC
+
+#ifdef __GNUC__
+#  define UNUSED_FUNC __attribute__((__unused__))
+#else
+#  define UNUSED_FUNC
+#endif
+
+#endif
+
