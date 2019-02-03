@@ -28,6 +28,8 @@
 .Nm VECTOR_PREPEND ,
 .Nm VECTOR_ERASE ,
 .Nm VECTOR_AT ,
+.Nm VECTOR_FRONT ,
+.Nm VECTOR_BACK ,
 .Nm VECTOR_FOREACH ,
 .Nm VECTOR_DATA ,
 .Nm VECTOR_SIZE ,
@@ -59,6 +61,10 @@
 .Fn VECTOR_ERASE "VECTOR(TYPE) vector" "size_t index"
 .Ft TYPE
 .Fn VECTOR_AT "VECTOR(TYPE) vector" "size_t index"
+.Ft TYPE
+.Fn VECTOR_FRONT "VECTOR(TYPE) vector"
+.Ft TYPE
+.Fn VECTOR_BACK "VECTOR(TYPE) vector"
 .Fn VECTOR_FOREACH "VECTOR(TYPE) vector" "TYPE *element"
 .Ft TYPE*
 .Fn VECTOR_DATA "VECTOR(TYPE) vector"
@@ -232,6 +238,22 @@ evaluates to the
 at the specified
 .Vt index .
 This can be used for reading and writing the data at said index.
+.Pp
+The macro
+.Fn VECTOR_FRONT vector
+evaluates to the first
+.Vt element
+of the
+.Vt vector .
+This macro can be used for reading and writing.
+.Pp
+The macro
+.Fn VECTOR_BACK vector
+evaluates to the last
+.Vt element
+of the
+.Vt vector .
+This macro can be used for reading and writing.
 .Pp
 The macro
 .Fn VECTOR_FOREACH vector element

@@ -247,7 +247,37 @@ test_erase (void ** UNUSED(state))
 	VECTOR_FREE(v);
 }
 
+void
+test_front (void ** UNUSED(state))
+{
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
+	will_return_always(_wrap_realloc, 0);
+
+	assert_int_equal(VECTOR_APPEND(v, 10), 0);
+	assert_int_equal(VECTOR_FRONT(v), 10);
+
+	assert_int_equal(VECTOR_APPEND(v, 20), 0);
+	assert_int_equal(VECTOR_FRONT(v), 10);
+
+	VECTOR_FREE(v);
+}
+
+void
+test_back (void ** UNUSED(state))
+{
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
+
+	will_return_always(_wrap_realloc, 0);
+
+	assert_int_equal(VECTOR_APPEND(v, 10), 0);
+	assert_int_equal(VECTOR_BACK(v), 10);
+
+	assert_int_equal(VECTOR_APPEND(v, 20), 0);
+	assert_int_equal(VECTOR_BACK(v), 20);
+
+	VECTOR_FREE(v);
+}
 
 void
 test_new_fail (void ** UNUSED(state))
@@ -388,6 +418,8 @@ main (void)
 		cmocka_unit_test(test_append_grow),
 		cmocka_unit_test(test_prepend_grow),
 		cmocka_unit_test(test_erase),
+		cmocka_unit_test(test_front),
+		cmocka_unit_test(test_back),
 		cmocka_unit_test(test_new_fail),
 		cmocka_unit_test(test_new_capacity_fail),
 		cmocka_unit_test(test_append_grow_fail),
