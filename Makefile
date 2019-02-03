@@ -4,11 +4,12 @@ INSTALL ?= install
 PREFIX ?= /usr/local
 DESTDIR ?=
 CC ?= cc
+PKG_CONFIG ?= pkg-config
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -fprofile-arcs -ftest-coverage
 CFLAGS += -O3
-CFLAGS += `pkg-config --cflags cmocka`
-LDFLAGS += `pkg-config --libs cmocka`
+CFLAGS += `$(PKG_CONFIG) --cflags cmocka`
+LDFLAGS += `$(PKG_CONFIG) --libs cmocka`
 
 PACKAGE = vector
 VERSION = 0.0.0
