@@ -25,7 +25,7 @@
 
 #define VECTOR_INIT_EMPTY(v) ((v).size = 0, (v).capacity = VECTOR_DEFAULT_CAPACITY, (v).data = NULL)
 
-#define VECTOR_INIT_DATA(v, d, s) ((v).size = s, (v).capacity = s, (v).data = d)
+#define VECTOR_INIT_DATA(v, d, s) ((v).size = (s), (v).capacity = (s), (v).data = (d))
 #define VECTOR_INIT_CAPACITY(v, c) ((v).size = 0, (v).capacity = (c), (v).data = NULL)
 
 #define VECTOR(type)		\
@@ -39,7 +39,7 @@ struct {			\
 
 #define VECTOR_TYPEDEF(type, name) typedef VECTOR(type) VECTOR_TYPE(name)
 
-#define VECTOR_NEW(v) VECTOR_NEW_CAPACITY(v, VECTOR_DEFAULT_CAPACITY)
+#define VECTOR_NEW(v) VECTOR_NEW_CAPACITY((v), VECTOR_DEFAULT_CAPACITY)
 
 #define VECTOR_NEW_CAPACITY(v, c) _vector_new_capacity(_vector(v), (c))
 
@@ -47,7 +47,7 @@ struct {			\
 
 #define VECTOR_PREPEND(v, e) ((!_vector_prepend(_vector(v))) ? ((v).data[0] = e, (v).size++, 0) : 1)
 
-#define VECTOR_ERASE(v, i) (_vector_memmove(_vector(v), i, i+1), (v).size--)
+#define VECTOR_ERASE(v, i) (_vector_memmove(_vector(v), (i), (i)+1), (v).size--)
 
 #define VECTOR_AT(v, i) ((v).data[i])
 
