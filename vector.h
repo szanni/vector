@@ -21,12 +21,12 @@
 #define VECTOR_DEFAULT_CAPACITY 5u
 
 #define VECTOR_INIT_STATIC_EMPTY {0, VECTOR_DEFAULT_CAPACITY, NULL}
-#define VECTOR_INIT_STATIC_CAPACITY(capacity) {0, (capacity), NULL}
+#define VECTOR_INIT_STATIC_CAPACITY(c) {0, (c), NULL}
 
-#define VECTOR_INIT_EMPTY(v) ((v).size = 0, (v).capacity = VECTOR_DEFAULT_CAPACITY, (v).data = NULL)
+#define VECTOR_INIT_EMPTY(v) VECTOR_INIT_CAPACITY((v), VECTOR_DEFAULT_CAPACITY)
 
-#define VECTOR_INIT_DATA(v, d, s) ((v).size = (s), (v).capacity = (s), (v).data = (d))
-#define VECTOR_INIT_CAPACITY(v, c) ((v).size = 0, (v).capacity = (c), (v).data = NULL)
+#define VECTOR_INIT_DATA(v, d, s) (VECTOR_SIZE(v) = (s), VECTOR_CAPACITY(v) = (s), VECTOR_DATA(v) = (d))
+#define VECTOR_INIT_CAPACITY(v, c) (VECTOR_SIZE(v) = 0, VECTOR_CAPACITY(v) = (c), VECTOR_DATA(v) = NULL)
 
 #define VECTOR(type)		\
 struct {			\
@@ -43,19 +43,19 @@ struct {			\
 
 #define VECTOR_NEW_CAPACITY(v, c) _vector_new_capacity(_vector(v), (c))
 
-#define VECTOR_APPEND(v, e) ((!_vector_grow_if_needed(_vector(v))) ? ((v).data[(v).size++] = e, 0) : 1)
+#define VECTOR_APPEND(v, e) ((!_vector_grow_if_needed(_vector(v))) ? (VECTOR_AT((v), VECTOR_SIZE(v)++) = e, 0) : 1)
 
-#define VECTOR_PREPEND(v, e) ((!_vector_prepend(_vector(v))) ? ((v).data[0] = e, (v).size++, 0) : 1)
+#define VECTOR_PREPEND(v, e) ((!_vector_prepend(_vector(v))) ? (VECTOR_AT((v), 0) = e, (VECTOR_SIZE(v))++, 0) : 1)
 
-#define VECTOR_ERASE(v, i) (_vector_memmove(_vector(v), (i), (i)+1), (v).size--)
+#define VECTOR_ERASE(v, i) (_vector_memmove(_vector(v), (i), (i)+1), VECTOR_SIZE(v)--)
 
-#define VECTOR_AT(v, i) ((v).data[i])
+#define VECTOR_AT(v, i) (VECTOR_DATA(v)[i])
 
-#define VECTOR_FRONT(v) ((v).data[0])
+#define VECTOR_FRONT(v) VECTOR_AT((v), 0)
 
-#define VECTOR_BACK(v) ((v).data[(v).size-1])
+#define VECTOR_BACK(v) VECTOR_AT((v), VECTOR_SIZE(v)-1)
 
-#define VECTOR_FOREACH(v, ep) for ((ep) = (v).data; (ep) < (v).data + (v).size; ++(ep))
+#define VECTOR_FOREACH(v, ep) for ((ep) = VECTOR_DATA(v); (ep) < VECTOR_DATA(v) + VECTOR_SIZE(v); ++(ep))
 
 #define VECTOR_DATA(v) ((v).data)
 
@@ -65,7 +65,7 @@ struct {			\
 
 #define VECTOR_SHRINK_TO_FIT(v) _vector_shrink_to_fit(_vector(v))
 
-#define VECTOR_FREE(v) free((v).data)
+#define VECTOR_FREE(v) free(VECTOR_DATA(v))
 
 /**********************
  * Helper definitions *
@@ -73,7 +73,7 @@ struct {			\
 
 VECTOR_TYPEDEF(void, _vector_void);
 
-#define _vector(v) (VECTOR_TYPE(_vector_void) *)&(v), sizeof(*(v).data)
+#define _vector(v) (VECTOR_TYPE(_vector_void) *)&(v), sizeof(*VECTOR_DATA(v))
 
 #if __STDC_VERSION__ >= 199901L
 static inline int
