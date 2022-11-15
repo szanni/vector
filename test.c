@@ -379,7 +379,7 @@ print_vector (VECTOR_TYPE(string) v)
         char **p;
         char **si = strings;
 
-        VECTOR_FOREACH(v, p)
+        VECTOR_FOREACH_PTR(v, p)
                 assert_string_equal(*p, *si++);
 }
 

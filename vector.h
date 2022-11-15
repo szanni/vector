@@ -55,7 +55,7 @@ struct {			\
 
 #define VECTOR_BACK(v) VECTOR_AT((v), VECTOR_SIZE(v)-1)
 
-#define VECTOR_FOREACH(v, ep) for ((ep) = VECTOR_DATA(v); (ep) < VECTOR_DATA(v) + VECTOR_SIZE(v); ++(ep))
+#define VECTOR_FOREACH_PTR(v, ep) for ((ep) = VECTOR_DATA(v); (ep) < VECTOR_DATA(v) + VECTOR_SIZE(v); ++(ep))
 
 #define VECTOR_DATA(v) ((v).data)
 

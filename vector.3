@@ -30,7 +30,7 @@
 .Nm VECTOR_AT ,
 .Nm VECTOR_FRONT ,
 .Nm VECTOR_BACK ,
-.Nm VECTOR_FOREACH ,
+.Nm VECTOR_FOREACH_PTR ,
 .Nm VECTOR_DATA ,
 .Nm VECTOR_SIZE ,
 .Nm VECTOR_CAPACITY ,
@@ -65,7 +65,7 @@
 .Fn VECTOR_FRONT "VECTOR(TYPE) vector"
 .Ft TYPE
 .Fn VECTOR_BACK "VECTOR(TYPE) vector"
-.Fn VECTOR_FOREACH "VECTOR(TYPE) vector" "TYPE *element"
+.Fn VECTOR_FOREACH_PTR "VECTOR(TYPE) vector" "TYPE *element"
 .Ft TYPE*
 .Fn VECTOR_DATA "VECTOR(TYPE) vector"
 .Ft size_t
@@ -256,7 +256,7 @@ of the
 This macro can be used for reading and writing.
 .Pp
 The macro
-.Fn VECTOR_FOREACH vector element
+.Fn VECTOR_FOREACH_PTR vector element
 evaluates to a for loop expression, iterating over all elements of the
 .Fa vector .
 The second parameter
@@ -370,7 +370,7 @@ print_vector (VECTOR_TYPE(string) v)
 
 	puts("elements:");
 
-	VECTOR_FOREACH(v, p)
+	VECTOR_FOREACH_PTR(v, p)
 		printf("  %s\\n", *p);
 }
 
