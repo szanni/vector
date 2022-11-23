@@ -104,9 +104,9 @@ test_INIT_CAPACITY (void ** UNUSED(state))
 }
 
 void
-test_INIT_STATIC_CAPACITY (void ** UNUSED(state))
+test_INIT_STATIC_EMPTY_CAPACITY (void ** UNUSED(state))
 {
-	VECTOR(int) v = VECTOR_INIT_STATIC_CAPACITY(7);
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(7);
 
 	will_return(_wrap_realloc, 0);
 
@@ -137,7 +137,7 @@ _test_INIT_DATA(int *data, size_t size)
 void
 test_INIT_DATA (void ** UNUSED(state))
 {
-	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(3);
+	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(3);
 
 	will_return(_wrap_realloc, 0);
 
@@ -336,7 +336,7 @@ test_prepend_grow_fail (void ** UNUSED(state))
 void
 test_shrink_to_fit (void ** UNUSED(state))
 {
-	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_CAPACITY(5);
+	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(5);
 
 	will_return(_wrap_realloc, 0);
 	will_return(_wrap_realloc, 0);
@@ -411,7 +411,7 @@ main (void)
 		cmocka_unit_test(test_INIT_EMPTY),
 		cmocka_unit_test(test_INIT_STATIC_EMPTY),
 		cmocka_unit_test(test_INIT_CAPACITY),
-		cmocka_unit_test(test_INIT_STATIC_CAPACITY),
+		cmocka_unit_test(test_INIT_STATIC_EMPTY_CAPACITY),
 		cmocka_unit_test(test_INIT_DATA),
 		cmocka_unit_test(test_new),
 		cmocka_unit_test(test_new_capacity),

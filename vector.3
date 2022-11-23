@@ -20,7 +20,7 @@
 .Nm VECTOR_TYPE ,
 .Nm VECTOR_TYPEDEF ,
 .Nm VECTOR_INIT_STATIC_EMPTY ,
-.Nm VECTOR_INIT_STATIC_CAPACITY ,
+.Nm VECTOR_INIT_STATIC_EMPTY_CAPACITY ,
 .Nm VECTOR_INIT_DATA ,
 .Nm VECTOR_NEW ,
 .Nm VECTOR_NEW_CAPACITY ,
@@ -47,7 +47,7 @@
 .Fn VECTOR_TYPEDEF TYPE NAME
 .Pp
 .Dv VECTOR_INIT_STATIC_EMPTY
-.Fn VECTOR_INIT_STATIC_CAPACITY "size_t capacity"
+.Fn VECTOR_INIT_STATIC_EMPTY_CAPACITY "size_t capacity"
 .Fn VECTOR_INIT_DATA "TYPE *data" "size_t size"
 .Ft int
 .Fn VECTOR_NEW "VECTOR(TYPE) vector"
@@ -157,7 +157,7 @@ to allocate memory for
 elements when first called.
 .Pp
 The macro
-.Fn VECTOR_INIT_STATIC_CAPACITY capacity
+.Fn VECTOR_INIT_STATIC_EMPTY_CAPACITY capacity
 evaluates to a generic
 .Ft vector ,
 which can be safely passed to all
