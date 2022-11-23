@@ -152,7 +152,7 @@ void
 test_new (void ** UNUSED(state))
 {
 	/* Ensure VECTOR_NEW() is not affected by uninitialized structures */
-	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0xDEADBEEF};
+	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0x5EEDC0DE};
 
 	will_return(_wrap_realloc, 0);
 
@@ -168,7 +168,7 @@ test_new_capacity (void ** UNUSED(state))
 {
 	/* Ensure VECTOR_NEW_CAPACITY() is not affected by uninitialized
 	   structures */
-	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0xDEADBEEF};
+	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0x5EEDC0DE};
 
 	will_return(_wrap_realloc, 0);
 
