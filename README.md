@@ -30,7 +30,7 @@ Example
 int
 main (void)
 {
-	VECTOR(int) v = VECTOR_INIT_STATIC;
+	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
 	if (VECTOR_APPEND(v, 10)) {
 		return 1;
