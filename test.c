@@ -85,10 +85,10 @@ test_INIT_STATIC_EMPTY (void ** UNUSED(state))
 }
 
 void
-test_INIT_CAPACITY (void ** UNUSED(state))
+test_INIT_EMPTY_CAPACITY (void ** UNUSED(state))
 {
 	VECTOR(int) v;
-	VECTOR_INIT_CAPACITY(v, 7);
+	VECTOR_INIT_EMPTY_CAPACITY(v, 7);
 
 	will_return(_wrap_realloc, 0);
 
@@ -410,7 +410,7 @@ main (void)
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_INIT_EMPTY),
 		cmocka_unit_test(test_INIT_STATIC_EMPTY),
-		cmocka_unit_test(test_INIT_CAPACITY),
+		cmocka_unit_test(test_INIT_EMPTY_CAPACITY),
 		cmocka_unit_test(test_INIT_STATIC_EMPTY_CAPACITY),
 		cmocka_unit_test(test_INIT_DATA),
 		cmocka_unit_test(test_new),
