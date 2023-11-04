@@ -80,11 +80,11 @@ static inline int
 #else
 static int
 #endif
-_vector_resize (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t new_capacity)
+_vector_resize(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t new_capacity)
 {
 	void *new_data;
 
-	new_data = realloc (v->data, new_capacity * sizeof_type);
+	new_data = realloc(v->data, new_capacity * sizeof_type);
 	if (new_data == NULL)
 		return 1;
 
@@ -98,7 +98,7 @@ static inline int
 #else
 static int
 #endif
-_vector_grow_if_needed (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
+_vector_grow_if_needed(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 {
 	size_t new_capacity;
 
@@ -106,13 +106,13 @@ _vector_grow_if_needed (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 		if (v->size < v->capacity)
 			return 0;
 
-		new_capacity = (size_t) (v->capacity * VECTOR_GROWTH_FACTOR);
+		new_capacity = (size_t)(v->capacity * VECTOR_GROWTH_FACTOR);
 	}
 	else {
 		new_capacity = v->capacity;
 	}
 
-	return _vector_resize (v, sizeof_type, new_capacity);
+	return _vector_resize(v, sizeof_type, new_capacity);
 }
 
 #if __STDC_VERSION__ >= 199901L
@@ -120,10 +120,10 @@ static inline int
 #else
 static int
 #endif
-_vector_memmove (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t destidx, size_t srcidx)
+_vector_memmove(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t destidx, size_t srcidx)
 {
 	memmove((char*)v->data + sizeof_type * destidx,
-	        (char*)v->data + sizeof_type * srcidx,
+		(char*)v->data + sizeof_type * srcidx,
 		(v->size - srcidx) * sizeof_type);
 	return 0;
 }
@@ -133,7 +133,7 @@ static inline int
 #else
 static int
 #endif
-_vector_prepend (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
+_vector_prepend(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 {
 	if (_vector_grow_if_needed(v, sizeof_type))
 		return 1;
@@ -147,13 +147,13 @@ static inline int
 #else
 static int
 #endif
-_vector_new_capacity (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t capacity)
+_vector_new_capacity(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t capacity)
 {
 	v->size = 0;
 	v->capacity = capacity;
 	v->data = NULL;
 
-	return _vector_resize (v, sizeof_type, capacity);
+	return _vector_resize(v, sizeof_type, capacity);
 }
 
 #if __STDC_VERSION__ >= 199901L
@@ -161,7 +161,7 @@ static inline void
 #else
 static void
 #endif
-_vector_shrink_to_fit (VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
+_vector_shrink_to_fit(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 {
 	_vector_resize(v, sizeof_type, v->size);
 }

@@ -39,7 +39,7 @@ VECTOR_TYPEDEF(char*, string);
 char* strings[] = {"ab", "cd", "ef", NULL};
 
 void *
-_wrap_realloc (void * ptr, size_t size)
+_wrap_realloc(void * ptr, size_t size)
 {
 	if (mock_type(int))
 		return NULL;
@@ -48,7 +48,7 @@ _wrap_realloc (void * ptr, size_t size)
 }
 
 void
-test_INIT_EMPTY (void ** UNUSED(state))
+test_INIT_EMPTY(void ** UNUSED(state))
 {
 	VECTOR(int) v;
 	VECTOR_INIT_EMPTY(v);
@@ -67,7 +67,7 @@ test_INIT_EMPTY (void ** UNUSED(state))
 }
 
 void
-test_INIT_STATIC_EMPTY (void ** UNUSED(state))
+test_INIT_STATIC_EMPTY(void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
@@ -85,7 +85,7 @@ test_INIT_STATIC_EMPTY (void ** UNUSED(state))
 }
 
 void
-test_INIT_EMPTY_CAPACITY (void ** UNUSED(state))
+test_INIT_EMPTY_CAPACITY(void ** UNUSED(state))
 {
 	VECTOR(int) v;
 	VECTOR_INIT_EMPTY_CAPACITY(v, 7);
@@ -104,7 +104,7 @@ test_INIT_EMPTY_CAPACITY (void ** UNUSED(state))
 }
 
 void
-test_INIT_STATIC_EMPTY_CAPACITY (void ** UNUSED(state))
+test_INIT_STATIC_EMPTY_CAPACITY(void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(7);
 
@@ -135,7 +135,7 @@ _test_INIT_DATA(int *data, size_t size)
 }
 
 void
-test_INIT_DATA (void ** UNUSED(state))
+test_INIT_DATA(void ** UNUSED(state))
 {
 	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(3);
 
@@ -149,7 +149,7 @@ test_INIT_DATA (void ** UNUSED(state))
 }
 
 void
-test_new (void ** UNUSED(state))
+test_new(void ** UNUSED(state))
 {
 	/* Ensure VECTOR_NEW() is not affected by uninitialized structures */
 	VECTOR(int) v = {1, VECTOR_DEFAULT_CAPACITY + 10, (void*) 0x5EEDC0DE};
@@ -164,7 +164,7 @@ test_new (void ** UNUSED(state))
 }
 
 void
-test_new_capacity (void ** UNUSED(state))
+test_new_capacity(void ** UNUSED(state))
 {
 	/* Ensure VECTOR_NEW_CAPACITY() is not affected by uninitialized
 	   structures */
@@ -180,7 +180,7 @@ test_new_capacity (void ** UNUSED(state))
 }
 
 void
-test_append_grow (void ** UNUSED(state))
+test_append_grow(void ** UNUSED(state))
 {
 	size_t i;
 	size_t capacity;
@@ -200,7 +200,7 @@ test_append_grow (void ** UNUSED(state))
 }
 
 void
-test_prepend_grow (void ** UNUSED(state))
+test_prepend_grow(void ** UNUSED(state))
 {
 	size_t i;
 	size_t capacity;
@@ -220,7 +220,7 @@ test_prepend_grow (void ** UNUSED(state))
 }
 
 void
-test_erase (void ** UNUSED(state))
+test_erase(void ** UNUSED(state))
 {
 	size_t i;
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
@@ -248,7 +248,7 @@ test_erase (void ** UNUSED(state))
 }
 
 void
-test_front (void ** UNUSED(state))
+test_front(void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
@@ -264,7 +264,7 @@ test_front (void ** UNUSED(state))
 }
 
 void
-test_back (void ** UNUSED(state))
+test_back(void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
@@ -280,7 +280,7 @@ test_back (void ** UNUSED(state))
 }
 
 void
-test_new_fail (void ** UNUSED(state))
+test_new_fail(void ** UNUSED(state))
 {
 	VECTOR(int) v;
 
@@ -290,7 +290,7 @@ test_new_fail (void ** UNUSED(state))
 }
 
 void
-test_new_capacity_fail (void ** UNUSED(state))
+test_new_capacity_fail(void ** UNUSED(state))
 {
 	VECTOR(int) v;
 
@@ -300,7 +300,7 @@ test_new_capacity_fail (void ** UNUSED(state))
 }
 
 void
-test_append_grow_fail (void ** UNUSED(state))
+test_append_grow_fail(void ** UNUSED(state))
 {
 	unsigned i;
 	VECTOR(int) v;
@@ -317,7 +317,7 @@ test_append_grow_fail (void ** UNUSED(state))
 }
 
 void
-test_prepend_grow_fail (void ** UNUSED(state))
+test_prepend_grow_fail(void ** UNUSED(state))
 {
 	unsigned i;
 	VECTOR(int) v;
@@ -334,7 +334,7 @@ test_prepend_grow_fail (void ** UNUSED(state))
 }
 
 void
-test_shrink_to_fit (void ** UNUSED(state))
+test_shrink_to_fit(void ** UNUSED(state))
 {
 	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(5);
 
@@ -359,7 +359,7 @@ test_shrink_to_fit (void ** UNUSED(state))
 }
 
 void
-test_basic_example (void ** UNUSED(state))
+test_basic_example(void ** UNUSED(state))
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
@@ -374,7 +374,7 @@ test_basic_example (void ** UNUSED(state))
 	VECTOR_FREE(v);
 }
 void
-print_vector (VECTOR_TYPE(string) v)
+print_vector(VECTOR_TYPE(string) v)
 {
         char **p;
         char **si = strings;
@@ -384,7 +384,7 @@ print_vector (VECTOR_TYPE(string) v)
 }
 
 void
-test_advanced_example (void ** UNUSED(state))
+test_advanced_example(void ** UNUSED(state))
 {
         char *s;
         char **si = strings;
@@ -405,7 +405,7 @@ test_advanced_example (void ** UNUSED(state))
 }
 
 int
-main (void)
+main(void)
 {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_INIT_EMPTY),

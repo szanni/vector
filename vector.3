@@ -330,7 +330,7 @@ Simple example showing typical use:
 #include <vector.h>
 
 int
-main (void)
+main(void)
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
@@ -364,7 +364,7 @@ to other functions as arguments and iterating over the vector's contents:
 VECTOR_TYPEDEF(char*, string);
 
 static void
-print_vector (VECTOR_TYPE(string) v)
+print_vector(VECTOR_TYPE(string) v)
 {
 	char **p;
 
@@ -375,7 +375,7 @@ print_vector (VECTOR_TYPE(string) v)
 }
 
 int
-main (void)
+main(void)
 {
 	unsigned i;
 	VECTOR_TYPE(string) v = VECTOR_INIT_STATIC_EMPTY;
