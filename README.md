@@ -29,7 +29,7 @@ Example
 #include <vector.h>
 
 int
-main (void)
+main(void)
 {
 	VECTOR(int) v = VECTOR_INIT_STATIC_EMPTY;
 
