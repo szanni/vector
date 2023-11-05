@@ -367,6 +367,30 @@ test_shrink_to_fit_empty(void ** UNUSED(state))
 
 	VECTOR_SHRINK_TO_FIT(v);
 
+	assert_int_equal(VECTOR_SIZE(v), 0);
+
+	assert_int_equal(VECTOR_APPEND(v, 10), 0);
+	assert_int_equal(VECTOR_APPEND(v, 20), 0);
+
+	assert_int_equal(VECTOR_SIZE(v), 2);
+	assert_int_equal(VECTOR_AT(v, 0), 10);
+	assert_int_equal(VECTOR_AT(v, 1), 20);
+
+	VECTOR_FREE(v);
+}
+
+void
+test_shrink_to_fit_empty_twice(void ** UNUSED(state))
+{
+	VECTOR_TYPE(int) v = VECTOR_INIT_STATIC_EMPTY_CAPACITY(5);
+
+	will_return_always(_wrap_realloc, 0);
+
+	VECTOR_SHRINK_TO_FIT(v);
+	VECTOR_SHRINK_TO_FIT(v);
+
+	assert_int_equal(VECTOR_SIZE(v), 0);
+
 	assert_int_equal(VECTOR_APPEND(v, 10), 0);
 	assert_int_equal(VECTOR_APPEND(v, 20), 0);
 
@@ -469,6 +493,7 @@ main(void)
 		cmocka_unit_test(test_prepend_grow_fail),
 		cmocka_unit_test(test_shrink_to_fit),
 		cmocka_unit_test(test_shrink_to_fit_empty),
+		cmocka_unit_test(test_shrink_to_fit_empty_twice),
 		cmocka_unit_test(test_shrink_to_fit_one),
 		cmocka_unit_test(test_basic_example),
 		cmocka_unit_test(test_advanced_example),
