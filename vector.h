@@ -112,6 +112,11 @@ _vector_grow_if_needed(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 		new_capacity = v->capacity;
 	}
 
+	/* Ensure to always grow the vector. Needed for capacity == 0
+	 * or capacity == 1 and a growth factor < 2. */
+	if (new_capacity <= v->size)
+		new_capacity = v->size + VECTOR_DEFAULT_CAPACITY;
+
 	return _vector_resize(v, sizeof_type, new_capacity);
 }
 
