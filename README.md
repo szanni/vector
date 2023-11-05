@@ -8,9 +8,9 @@ Usage
 =====
 
 vector deliberately does not include any parts of the C standard library but
-rather expects users to provide the functions `realloc` and `free`, as well
-as the type `size_t` themselves. For most applications just include 
-`<stdlib.h>` before including `<vector.h>`.
+rather expects users to provide the functions `realloc()`, `memmove()`, and
+`free()`, as well as the type `size_t` themselves. For most applications just
+include `<stdlib.h>` and `<string.h>` before including `<vector.h>`.
 
 vector is primarily targeted at the creation of dynamic arrays on the fly. While
 the library provides for a way of passing vectors around to other functions,
@@ -25,6 +25,7 @@ Example
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <vector.h>
 
 int
@@ -56,7 +57,8 @@ Dependencies
 Runtime
 -------
 
-* Definitions for the functions `realloc`, `free` and type `size_t`.
+* Definitions for the functions `realloc()`, `memmove()`, `free()` and type
+  `size_t`.
 
 Test
 ----
