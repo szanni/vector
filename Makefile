@@ -8,6 +8,7 @@ PKG_CONFIG ?= pkg-config
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -fprofile-arcs -ftest-coverage
 CFLAGS += -O3
+CFLAGS += -fsanitize=address
 CFLAGS += `$(PKG_CONFIG) --cflags cmocka`
 LDFLAGS += `$(PKG_CONFIG) --libs cmocka`
 
