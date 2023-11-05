@@ -168,6 +168,11 @@ static void
 #endif
 _vector_shrink_to_fit(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type)
 {
+	if (v->size == 0) {
+		VECTOR_FREE(*v);
+		VECTOR_INIT_EMPTY(*v);
+		return;
+	}
 	_vector_resize(v, sizeof_type, v->size);
 }
 
