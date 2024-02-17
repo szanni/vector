@@ -26,7 +26,7 @@
 #define VECTOR_INIT_EMPTY(v) VECTOR_INIT_EMPTY_CAPACITY((v), VECTOR_DEFAULT_CAPACITY)
 #define VECTOR_INIT_EMPTY_CAPACITY(v, c) (VECTOR_SIZE(v) = 0, VECTOR_CAPACITY(v) = (c), VECTOR_DATA(v) = NULL)
 
-#define VECTOR_INIT_DATA(v, d, s) (VECTOR_SIZE(v) = (s), VECTOR_CAPACITY(v) = (s), VECTOR_DATA(v) = (d))
+#define VECTOR_INIT_DATA(v, d, s) (VECTOR_SIZE(v) = (s), VECTOR_CAPACITY(v) = VECTOR_SIZE(v), VECTOR_DATA(v) = (d))
 
 #define VECTOR(type)		\
 struct {			\
