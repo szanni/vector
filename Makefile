@@ -15,7 +15,7 @@ LDFLAGS += `$(PKG_CONFIG) --libs cmocka`
 PACKAGE = vector
 VERSION = 0.0.0
 
-TESTOBJS = test.c89 test.c99 test.c11
+TESTOBJS = test.c89 test.c99 test.c11 test.c17
 DIST = Makefile vector.h vector.3 unused.h test.c LICENSE
 
 all:
@@ -26,6 +26,7 @@ check: clean $(TESTOBJS)
 	./test.c89
 	./test.c99
 	./test.c11
+	./test.c17
 
 test.c89: test.c vector.h unused.h
 	$(CC) -std=c89 test.c -o $@ $(CFLAGS) $(LDFLAGS)
@@ -35,6 +36,9 @@ test.c99: test.c vector.h unused.h
 
 test.c11: test.c vector.h unused.h
 	$(CC) -std=c11 test.c -o $@ $(CFLAGS) $(LDFLAGS)
+
+test.c17: test.c vector.h unused.h
+	$(CC) -std=c17 test.c -o $@ $(CFLAGS) $(LDFLAGS)
 
 install: vector.h vector.3
 	$(INSTALL) -D -m644 vector.h "$(DESTDIR)$(PREFIX)/include/vector.h"

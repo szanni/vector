@@ -2,7 +2,7 @@ vector
 ======
 
 A generic, type-safe, malloc checking dynamic array implementation within a
-single header file, written in standards compliant C (ANSI C89/C99/C11).
+single header file, written in standards compliant C (ANSI C89/C99/C11/C17).
 
 Usage
 =====
