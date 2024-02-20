@@ -7,16 +7,17 @@ single header file, written in standards compliant C (ANSI C89/C99/C11/C17).
 Usage
 =====
 
-vector deliberately does not include any parts of the C standard library but
-rather expects users to provide the functions `realloc()`, `memmove()`, and
-`free()`, as well as the type `size_t` themselves. For most applications just
-include `<stdlib.h>` and `<string.h>` before including `<vector.h>`.
+Simply copy `vector.h` to your project and `#include` where needed.
+
+You may override the required C standard library functions `realloc`, `free`,
+and `memmove` by defining `VECTOR_FN_REALLOC`, `VECTOR_FN_FREE`, and
+`VECTOR_FN_MEMMOVE` before including `vector.h`.
 
 vector is primarily targeted at the creation of dynamic arrays on the fly. While
 the library provides for a way of passing vectors around to other functions,
 please consider using the idiomatic C mechanisms of passing pointers with size!
 This holds especially true for public APIs. The functions `VECTOR_DATA`,
-`VECTOR_SIZE` and `VECTOR_FROM_DATA` should provide for a seamless interaction
+`VECTOR_SIZE` and `VECTOR_INIT_DATA` should provide for a seamless interaction
 with standard C interfaces.
 
 Example
@@ -24,9 +25,7 @@ Example
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector.h>
+#include "vector.h"
 
 int
 main(void)
@@ -57,7 +56,8 @@ Dependencies
 Runtime
 -------
 
-* Definitions for the functions `realloc()`, `memmove()`, `free()` and type
+* C standard library, unless you override `VECTOR_FN_REALLOC`,
+  `VECTOR_FN_FREE`, and `VECTOR_FN_MEMMOVE` and provide a definition for
   `size_t`.
 
 Test

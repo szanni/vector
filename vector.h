@@ -17,6 +17,23 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#if !defined(VECTOR_FN_REALLOC) || !defined(VECTOR_FN_FREE)
+#include <stdlib.h>
+#endif
+
+#ifndef VECTOR_FN_REALLOC
+#define VECTOR_FN_REALLOC realloc
+#endif
+
+#ifndef VECTOR_FN_FREE
+#define VECTOR_FN_FREE free
+#endif
+
+#ifndef VECTOR_FN_MEMMOVE
+#include <string.h>
+#define VECTOR_FN_MEMMOVE memmove
+#endif
+
 #define VECTOR_GROWTH_FACTOR 1.5f
 #define VECTOR_DEFAULT_CAPACITY 5u
 
@@ -65,7 +82,7 @@ struct {			\
 
 #define VECTOR_SHRINK_TO_FIT(v) _vector_shrink_to_fit(_vector(v))
 
-#define VECTOR_FREE(v) free(VECTOR_DATA(v))
+#define VECTOR_FREE(v) VECTOR_FN_FREE(VECTOR_DATA(v))
 
 /**********************
  * Helper definitions *
@@ -84,7 +101,7 @@ _vector_resize(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t new_capa
 {
 	void *new_data;
 
-	new_data = realloc(v->data, new_capacity * sizeof_type);
+	new_data = VECTOR_FN_REALLOC(v->data, new_capacity * sizeof_type);
 	if (new_data == NULL)
 		return 1;
 
@@ -127,7 +144,7 @@ static void
 #endif
 _vector_memmove(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t destidx, size_t srcidx)
 {
-	memmove((char*)v->data + sizeof_type * destidx,
+	VECTOR_FN_MEMMOVE((char*)v->data + sizeof_type * destidx,
 		(char*)v->data + sizeof_type * srcidx,
 		(v->size - srcidx) * sizeof_type);
 }
@@ -140,7 +157,7 @@ static void
 _vector_erase(VECTOR_TYPE(_vector_void) *v, size_t sizeof_type, size_t destidx)
 {
 	size_t srcidx = destidx + 1;
-	memmove((char*)v->data + sizeof_type * destidx,
+	VECTOR_FN_MEMMOVE((char*)v->data + sizeof_type * destidx,
 		(char*)v->data + sizeof_type * srcidx,
 		(v->size - srcidx) * sizeof_type);
 	v->size--;

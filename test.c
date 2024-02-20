@@ -24,7 +24,6 @@
 #include <cmocka.h>
 
 #include <stdlib.h>
-#include <string.h>
 
 /* Wrap realloc to simulate realloc failure conditions in tests */
 void * _wrap_realloc(void *ptr, size_t size);

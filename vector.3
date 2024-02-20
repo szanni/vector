@@ -39,8 +39,6 @@
 .Nd generic, type-safe, malloc checkable dynamic array implementation in C
 (ANSI C89/ISO C99/ISO C11)
 .Sh SYNOPSIS
-.In stdlib.h
-.In string.h
 .In vector.h
 .Fn VECTOR TYPE
 .Fn VECTOR_TYPE NAME
@@ -82,18 +80,16 @@ is a generic, type-safe, malloc checkable, dynamic array implementation within
 a single header file, written in standards compliant C.
 .Pp
 .Nm
-deliberately does not include any parts of the C standard library but
-rather expects users to provide the functions
+lets you override the required C standard library functions
 .Fn realloc ,
-.Fn memmove
-and
 .Fn free ,
-as well as the type
-.Vt size_t
-themselves. For most applications just include
-.In stdlib.h
 and
-.In string.h
+.Fn memmove
+by defining
+.Dv VECTOR_FN_REALLOC ,
+.Dv VECTOR_FN_FREE ,
+and
+.Dv VECTOR_FN_MEMMOVE
 before including
 .In vector.h .
 .Pp
@@ -325,9 +321,7 @@ evaluates to 0 on success, and 1 if an error occurs.
 Simple example showing typical use:
 .Bd -literal
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector.h>
+#include "vector.h"
 
 int
 main(void)
@@ -357,9 +351,7 @@ Example for passing
 to other functions as arguments and iterating over the vector's contents:
 .Bd -literal
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector.h>
+#include "vector.h"
 
 VECTOR_TYPEDEF(char*, string);
 
