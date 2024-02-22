@@ -27,9 +27,8 @@
 
 /* Wrap realloc to simulate realloc failure conditions in tests */
 void * _wrap_realloc(void *ptr, size_t size);
-#define realloc(a,b) _wrap_realloc(a,b)
+#define VECTOR_FN_REALLOC _wrap_realloc
 #include "vector.h"
-#undef realloc
 
 #include "unused.h"
 
